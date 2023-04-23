@@ -1,0 +1,40 @@
+
+{% extends 'base.html' %}
+{% block title %}Music Sharing Platform - Login Page{% endblock %}
+{% block content %}
+
+<div class="container home-content">
+    {% for message in messages %}
+    <div class="alert alert-danger alert-dismissible fade show" role="alert">
+        <strong>{{message}}</strong>
+        <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+        <span aria-hidden="true">&times;</span>
+        </button>
+    </div>
+    {% endfor %} 
+    <h3>Login</h3>
+    <div class="card shadow p-4">
+        <form action="" method="post">{% csrf_token %}
+            <label for="username">Username</label>
+            <input type="text" id="username" name="username" class="form-control my-2" placeholder="Enter your Username">
+            <label for="password">Password</label>
+            <input type="password" id="password" name="password" class="form-control my-2" placeholder="Enter your Password">
+            <button type="submit" class="btn btn-dark mt-1">Login</button>
+        </form>
+    </div>
+    
+    <div class="text-center my-2">
+        Create a new account? <a href="{% url 'register_user' %}">Register</a>
+    </div>
+</div>
+
+
+
+
+
+
+{% endblock content %}
+
+
+
+

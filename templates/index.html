@@ -1,0 +1,136 @@
+{% extends 'base.html' %}
+{% block title %}Music Sharing Platform - Home Page{% endblock %}
+{% block content %}
+
+<div class="container">
+	{% if user.is_authenticated %}
+	<h3>Hey {{user}}, here we got some songs for you! ♥ </h3>
+	{% for message in messages %}
+	<div class="alert alert-warning alert-dismissible fade show" role="alert">
+		<strong>{{message}}</strong>
+		<button type="button" class="close" data-dismiss="alert" aria-label="Close">
+			<span aria-hidden="true">&times;</span>
+		</button>
+	</div>
+	{% endfor %}
+	<ul class="nav nav-pills mb-3" id="pills-tab" role="tablist">
+		<li class="nav-item" role="presentation">
+			<button class="nav-link active" id="pills-home-tab" data-toggle="pill" data-target="#pills-home"
+				type="button" role="tab" aria-controls="pills-home" aria-selected="true">Private Files</button>
+		</li>
+		<li class="nav-item" role="presentation">
+			<button class="nav-link" id="pills-profile-tab" data-toggle="pill" data-target="#pills-profile"
+				type="button" role="tab" aria-controls="pills-profile" aria-selected="false">Public Files</button>
+		</li>
+		<li class="nav-item" role="presentation">
+			<button class="nav-link" id="pills-contact-tab" data-toggle="pill" data-target="#pills-contact"
+				type="button" role="tab" aria-controls="pills-contact" aria-selected="false">Protected Files</button>
+		</li>
+	</ul>
+	<div class="tab-content" id="pills-tabContent">
+		<div class="tab-pane fade show active" id="pills-home" role="tabpanel" aria-labelledby="pills-home-tab">
+			<div class="alert alert-info alert-dismissible fade show" role="alert">
+				<strong>This Panel has the files you have uploaded. They are visible to you anytime.</strong>
+				<button type="button" class="close" data-dismiss="alert" aria-label="Close">
+					<span aria-hidden="true">&times;</span>
+				</button>
+			</div>
+			<div class="list-group">
+				{% if private_files|length != 0 %}
+				{% for private_file in private_files %}
+				<div class="list-group">
+					<span><b>{{private_file.name}}</b> - <small>Uploaded by {{private_file.uploaded_by}} </small></span>
+					<div class="list-group-item list-group-item-action">
+						<audio controls>
+							<source src="{{private_file.file.url}}" type="audio/mpeg">
+						</audio>
+					</div>
+				</div>
+				{% endfor %}
+				{% else %}
+				<div class="list-group">
+					<div class="list-group-item list-group-item-action">
+						<p>You have not uploaded any files yet! Upload it from the link available on NavBar. :(</p>
+					</div>
+				</div>
+				{% endif %}
+			</div>
+		</div>
+		<div class="tab-pane fade" id="pills-profile" role="tabpanel" aria-labelledby="pills-profile-tab">
+			<div class="alert alert-info alert-dismissible fade show" role="alert">
+				<strong>This Panel has the files those are uploaded publically by users. They are visible to anyone,
+					anytime.</strong>
+				<button type="button" class="close" data-dismiss="alert" aria-label="Close">
+					<span aria-hidden="true">&times;</span>
+				</button>
+			</div>
+			<div class="list-group">
+				{% if public_files|length != 0 %}
+				{% for public_file in public_files %}
+				<div class="list-group">
+					<span><b>{{public_file.name}}</b> - <small>Uploaded by {{public_file.uploaded_by}} </small></span>
+					<div class="list-group-item list-group-item-action">
+						<audio controls>
+							<source src="{{public_file.file.url}}" type="audio/mpeg">
+						</audio>
+					</div>
+				</div>
+				{% endfor %}
+				{% else %}
+				<div class="list-group">
+					<div class="list-group-item list-group-item-action">
+						<p>No files has been yet uploaded on the platform publically. :(</p>
+					</div>
+				</div>
+				{% endif %}
+			</div>
+		</div>
+		<div class="tab-pane fade" id="pills-contact" role="tabpanel" aria-labelledby="pills-contact-tab">
+			<div class="alert alert-info alert-dismissible fade show" role="alert">
+				<strong>This Panel has the files those are uploaded with certain restrictions regrading accessibility.
+					They are visible to you if the uploader of specific file has given given you right to access
+					it.</strong>
+				<button type="button" class="close" data-dismiss="alert" aria-label="Close">
+					<span aria-hidden="true">&times;</span>
+				</button>
+			</div>
+			<div class="list-group">
+				{% if protected_files|length != 0 %}
+				{% for protected_file in protected_files %}
+				<div class="list-group">
+					<span><b>{{protected_file.name}}</b> - <small>Uploaded by {{protected_file.uploaded_by}}
+						</small></span>
+					<div class="list-group-item list-group-item-action">
+						<audio controls>
+							<source src="{{protected_file.file.url}}" type="audio/mpeg">
+						</audio>
+					</div>
+				</div>
+				{% endfor %}
+				{% else %}
+				<div class="list-group">
+					<div class="list-group-item list-group-item-action">
+						<p>You are not yet given access to any protected file by any user. :(</p>
+					</div>
+				</div>
+
+
+				{% endif %}
+			</div>
+		</div>
+	</div>
+
+
+
+
+	{% else %}
+	<p><a href="{% url 'login_user' %}">Login to continue</a></p>
+	{% endif %}
+
+</div>
+
+
+
+
+
+{% endblock content %}
