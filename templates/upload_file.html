@@ -5,14 +5,12 @@
 <div class="container">
     <h3>Upload your file here</h3>
     <form action="" method="post" enctype="multipart/form-data">{% csrf_token %}
-        
         <div class="input-group input-group-lg mb-3">
             <div class="input-group-prepend">
               <span class="input-group-text" id="inputGroup-sizing-lg">Music File Name</span>
             </div>
             <input type="text" class="form-control" aria-label="Sizing example input" aria-describedby="inputGroup-sizing-lg" name="name" placeholder="Enter your Music File Name">
         </div>
-        
         <div class="input-group mb-3">
             <div class="input-group-prepend">
               <span class="input-group-text" id="inputGroupFileAddon01">Music File Upload</span>
@@ -22,7 +20,6 @@
               <label class="custom-file-label" for="inputGroupFile01">Choose file</label>
             </div>
         </div>
-
         <div class="input-group mb-3">
             <div class="input-group-prepend">
               <label class="input-group-text" for="inputGroupSelect01">Define Access Type</label>
@@ -40,9 +37,7 @@
             <textarea class="form-control" aria-label="With textarea" name="allowed_emails" placeholder="Enter the E-mails of users who are going to have access to this music file. Make sure to enter each E-mail separated with a comma (,) WITHOUT ANY SPACES BETWEEN COMMA AND EMAILS. For e.g.: xyz@gmail.com,abc147@yahoo.com" rows="14"></textarea>
         </div>
         <button type="submit" class="btn btn-dark btn-lg mt-2">Upload</button>
-
     </form>
-
 </div>
 
 
