@@ -23,3 +23,7 @@ class Access(models.Model):
 
     def __str__(self):
         return f"{self.user.username} has accesst to {self.music_file.name}"
+
+class CustomUser(models.Model):
+    user=models.ForeignKey(User, on_delete=models.CASCADE)
+    
