@@ -13,7 +13,7 @@ git clone https://github.com/MustafaAsad198/musicProject
 ### install requirements
 
 ```
-pip install django
+pip install requirements.txt
 ```
 
 ### run migration to register models in admin
