@@ -1,0 +1,22 @@
+{% extends 'base.html' %}
+{% load crispy_forms_tags %}
+{% block title %}Music Sharing Platform - Upload File Page{% endblock %}
+{% block content %}
+
+<div class="container">
+    <h3>Create your Playlist here</h3>
+    <form action="" method="post"> {% csrf_token %}
+        <div class="modal-body">
+            {{ form|crispy }}
+            <p style='font-size:small;'>Add the music files by putting a check ☑</p>
+            <button type="submit" class="btn btn-dark">Create Playlist</button>
+        </div>
+    </form>
+    
+</div>
+
+
+
+
+
+{% endblock content %}

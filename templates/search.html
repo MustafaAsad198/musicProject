@@ -1,0 +1,25 @@
+{% extends 'base.html' %}
+{% block title %}Music Sharing Platform - Search Page{% endblock %}
+{% block content %}
+
+<div class="container">
+	<h3>Results for {{filename}}</h3>
+    {% for file in searcheduserfiles %}
+    <div class="list-group">
+        <span><b>{{file.name}}</b> - <small>Uploaded by {{file.uploaded_by}} </small></span>
+        <div class="list-group-item list-group-item-action">
+            <audio controls>
+                <source src="{{file.file.url}}" type="audio/mpeg">
+            </audio>
+        </div>
+    </div>
+    <hr>
+    {% endfor %}
+
+</div>
+
+
+
+
+
+{% endblock content %}

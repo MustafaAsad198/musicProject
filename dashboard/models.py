@@ -24,6 +24,16 @@ class Access(models.Model):
     def __str__(self):
         return f"{self.user.username} has accesst to {self.music_file.name}"
 
-class CustomUser(models.Model):
-    user=models.ForeignKey(User, on_delete=models.CASCADE)
+
+class Playlist(models.Model):
+    sno=models.AutoField(primary_key=True)
+    name=models.CharField(max_length=200)
+    byUser=models.ForeignKey(User, on_delete=models.CASCADE,related_name='byUser')
+    files=models.ManyToManyField(MusicFile,related_name='files')
+
+
+    def __str__(self) -> str:
+        return f'{self.name}'
+
+
     

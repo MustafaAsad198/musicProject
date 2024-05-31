@@ -1,7 +1,7 @@
 {% extends 'base.html' %}
 {% block title %}Music Sharing Platform - Home Page{% endblock %}
 {% block content %}
-
+{% load extras %}
 <div class="container">
 	{% if user.is_authenticated %}
 	<h3>Hey {{user}}, here we got some songs for you! ♥ </h3>
@@ -26,6 +26,10 @@
 			<button class="nav-link" id="pills-contact-tab" data-toggle="pill" data-target="#pills-contact"
 				type="button" role="tab" aria-controls="pills-contact" aria-selected="false">Protected Files</button>
 		</li>
+		<li class="nav-item" role="presentation">
+			<button class="nav-link" id="pills-play-tab" data-toggle="pill" data-target="#pills-play"
+				type="button" role="tab" aria-controls="pills-play" aria-selected="false">My Playlist</button>
+		</li>
 	</ul>
 	<div class="tab-content" id="pills-tabContent">
 		<div class="tab-pane fade show active" id="pills-home" role="tabpanel" aria-labelledby="pills-home-tab">
@@ -46,13 +50,15 @@
 						</audio>
 					</div>
 				</div>
+				<hr>
 				{% endfor %}
 				{% else %}
 				<div class="list-group">
 					<div class="list-group-item list-group-item-action">
-						<p>You have not uploaded any files yet! Upload it from the link available on NavBar. :(</p>
+						<p>You have not uploaded any Private files yet! Upload it from the link available on NavBar. :(</p>
 					</div>
 				</div>
+				<hr>
 				{% endif %}
 			</div>
 		</div>
@@ -75,6 +81,7 @@
 						</audio>
 					</div>
 				</div>
+				<hr>
 				{% endfor %}
 				{% else %}
 				<div class="list-group">
@@ -82,6 +89,7 @@
 						<p>No files has been yet uploaded on the platform publically. :(</p>
 					</div>
 				</div>
+				<hr>
 				{% endif %}
 			</div>
 		</div>
@@ -106,6 +114,7 @@
 						</audio>
 					</div>
 				</div>
+				<hr>
 				{% endfor %}
 				{% else %}
 				<div class="list-group">
@@ -113,6 +122,49 @@
 						<p>You are not yet given access to any protected file by any user. :(</p>
 					</div>
 				</div>
+				<hr>
+				{% endif %}
+			</div>
+		</div>
+		<div class="tab-pane fade" id="pills-play" role="tabpanel" aria-labelledby="pills-play-tab">
+			<div class="alert alert-info alert-dismissible fade show" role="alert">
+				<strong>This Panel has the Playlists that you have created.</strong>
+				<button type="button" class="close" data-dismiss="alert" aria-label="Close">
+					<span aria-hidden="true">&times;</span>
+				</button>
+			</div>
+			<div class="list-group">
+				{% if playlists|length != 0 %}
+				{% for playlist in playlists %}
+				<div class="list-group">
+					<h5><b>{{playlist.name}}</b> - <small>Created by {{playlist.byUser}}
+						</small></h5>
+					<div class="list-group-item list-group-item-action">
+						{% with playlist|get_files as files %}
+						{% for file in files %}
+						<div class="list-group">
+							<span><b>{{file.name}}</b> - <small>Uploaded by {{file.uploaded_by}}
+								</small></span>
+							<div class="list-group-item list-group-item-action">
+								<audio controls>
+									<source src="{{file.file.url}}" type="audio/mpeg">
+								</audio>
+							</div>
+						</div>
+						<br>
+						{% endfor %}
+						{% endwith %}
+					</div>
+				</div>
+				<hr>
+				{% endfor %}
+				{% else %}
+				<div class="list-group">
+					<div class="list-group-item list-group-item-action">
+						<p>You are not yet given access to any protected file by any user. :(</p>
+					</div>
+				</div>
+				<hr>
 				{% endif %}
 			</div>
 		</div>

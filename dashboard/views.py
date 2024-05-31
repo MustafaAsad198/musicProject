@@ -5,6 +5,8 @@ from .models import *
 from django.contrib.auth import authenticate,login,logout
 from django.contrib.auth.decorators import login_required
 from collections import deque
+from .forms import *
+from dashboard.templatetags import extras
 # Create your views here.
 
 @login_required
@@ -13,10 +15,11 @@ def index(request):
     private_files=MusicFile.objects.filter(uploaded_by=user,upload_type='private')
     public_files=MusicFile.objects.filter(upload_type='public')
     protected_files_music=Access.objects.filter(user=request.user, access_type='protected').values('music_file')
+    playlists=Playlist.objects.filter(byUser=user)
     protected_files=deque([])
     for pfm in protected_files_music:
         protected_files.append(MusicFile.objects.get(id=pfm['music_file']))
-    context={'user': user,'private_files': private_files,'public_files': public_files,"protected_files": protected_files}
+    context={'user': user,'private_files': private_files,'public_files': public_files,"protected_files": protected_files,'playlists': playlists}
     return render(request,'index.html',context)
 
 def register_user(request):
@@ -104,3 +107,35 @@ def upload_file(request):
         return redirect('dashboard')
 
     return render(request,'upload_file.html')
+
+@login_required
+def search(request):
+    user=request.user
+    if request.method == "POST":
+        filename = request.POST.get("filename")
+        searchedfiles = MusicFile.objects.filter(name__icontains=filename)
+        context = {
+            "user": user,
+            "searcheduserfiles": searchedfiles,
+            'filename': filename
+        }
+        return render(request, "search.html", context)
+    else:
+        return redirect("/")
+    
+@login_required
+def create_playlist(request):
+    user=request.user
+    if request.method == "POST":
+        form=PlaylistCreateForm(request.POST)
+        if form.is_valid():
+            name = form.data.get("name")
+            addedfiles = form.cleaned_data.get("files")
+            playlist = Playlist.objects.create(name=name, byUser=request.user)
+            playlist.files.set(addedfiles)
+            messages.success(request, "Playlist created successfully.")
+            return redirect("dashboard")
+    else:
+        form=PlaylistCreateForm()
+    context={'form': form,'user':user}
+    return render(request, 'create_playlist.html', context)
